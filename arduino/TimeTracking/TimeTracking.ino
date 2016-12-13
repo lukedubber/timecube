@@ -38,13 +38,18 @@ byte readCard[4];
 //byte oldCard[4];
 String currentCard;
 String oldCard = "00000000"; //oldCard[8];
-
+int redPin = 5;
+int greenPin = 4;
+int bluePin = 3;
 
 void setup() {
   Serial.begin(9600); // Initialize serial communications with the PC
   SPI.begin();      // Init SPI bus
   mfrc522.PCD_Init(); // Init MFRC522 card
-  //Serial.println("Scan PICC to see UID and type...");
+  //Setup the LED feedback.
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
 }
 
 void loop() {
@@ -56,23 +61,26 @@ void loop() {
   // Select one of the cards
   if ( ! mfrc522.PICC_ReadCardSerial()) {
     return;
-  }
-
-  // Dump debug info about the card. PICC_HaltA() is automatically called.
-  //mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
+  }  
   currentCard = "";
   for (int i = 0; i < 4; i++) {  //
     readCard[i] = mfrc522.uid.uidByte[i];
     currentCard = currentCard + String(mfrc522.uid.uidByte[i], HEX);
-    //oldCard = oldCard + String(mfrc522.uid.uidByte[i], HEX);
-    //oldCard[i] = mfrc522.uid.uidByte[i];
   }
   if(currentCard != oldCard)
   {
-    //Serial.print(readCard[i], HEX);
     Serial.print(currentCard);
     oldCard = currentCard;
     Serial.println();
+    setColor(0, 255, 0); // green, we have read data
+    delay(2000);
+    setColor(0, 0, 0); // off
   }
-  //Serial.println(mfrc522.uid);
+}
+
+void setColor(int red, int green, int blue)
+{
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);
 }
