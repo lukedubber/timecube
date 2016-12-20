@@ -72,9 +72,16 @@ void loop() {
     Serial.print(currentCard);
     oldCard = currentCard;
     Serial.println();
-    setColor(0, 255, 0); // green, we have read data
-    delay(2000);
-    setColor(0, 0, 0); // off
+//    if(currentCard == "d5544c3a")
+//    {
+//      //setColor(200,200,200);
+//    }
+//    else
+//    {
+      setColor(0, 255, 0); // green, we have read data
+      delay(2000);
+      setColor(0, 0, 0); // off
+//    }
   }
 }
 
