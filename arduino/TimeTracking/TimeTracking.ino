@@ -41,6 +41,10 @@ String oldCard = "00000000"; //oldCard[8];
 int redPin = 5;
 int greenPin = 4;
 int bluePin = 3;
+int counter = 0;
+long waitTime = 15;
+long gaaa = 0;
+int maxCounter = 5;
 
 void setup() {
   Serial.begin(9600); // Initialize serial communications with the PC
@@ -50,6 +54,8 @@ void setup() {
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
   pinMode(bluePin, OUTPUT);
+  waitTime = minstosec(waitTime);
+  Serial.println(gaaa);
 }
 
 void loop() {
@@ -67,22 +73,40 @@ void loop() {
     readCard[i] = mfrc522.uid.uidByte[i];
     currentCard = currentCard + String(mfrc522.uid.uidByte[i], HEX);
   }
-  if(currentCard != oldCard)
-  {
+  if(currentCard != oldCard) {
     Serial.print(currentCard);
     oldCard = currentCard;
     Serial.println();
-//    if(currentCard == "d5544c3a")
-//    {
-//      //setColor(200,200,200);
-//    }
-//    else
-//    {
-      setColor(0, 255, 0); // green, we have read data
-      delay(2000);
-      setColor(0, 0, 0); // off
-//    }
+    setColor(0, 255, 0); // green, we have read data
+    delay(2000);
+    setColor(0, 0, 0); // off
+    counter = 0;
   }
+  else {
+    counter++;
+    //Serial.println(counter);
+    //Serial.println(waitTime)
+    if(counter > waitTime)
+    {
+      //Serial.println(counter);
+      //Serial.println(waitTime);
+      for(long i=0; i<=40; i++)
+      {
+        setColor(random(255), random(255), random(255)); // green, we have read data
+        delay(100);
+        Serial.println(i);
+      }
+      setColor(0,0,0);
+      counter = 0;
+    }
+    delay(1000);
+    
+  }
+}
+
+long minstosec(long waitTimeMins)
+{
+  return (waitTimeMins * 60);
 }
 
 void setColor(int red, int green, int blue)

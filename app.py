@@ -6,7 +6,7 @@ import os.path
 import sys
 
 
-fileName = 'timeTracker2.csv'
+fileName = '20170106.csv'
 
 
 file = open(fileName, 'a')
@@ -27,7 +27,7 @@ def projects(x):
         '6e402419': 'SS',
         'b5d54e3a': 'ADMIN',
         'd533fc2d': 'RA',
-        '8f9c490' : "LMJ",
+        '8f9c490' : "PERSONAL",
         '784079'  : "DERM"
 
     }[x]
